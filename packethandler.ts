@@ -5,6 +5,7 @@ import Client from "../../client";
 import GenericPacketHandler from "../../handlers/genericpackethandler";
 import Packet from "../../packet";
 import AntiName from "./";
+import Utils from "./utils";
 
 class PacketHandler implements GenericPacketHandler {
     private _antiName: AntiName;
@@ -47,7 +48,7 @@ class PacketHandler implements GenericPacketHandler {
             client.disconnect(`Your name is too short. (Min 2 chars)`);
         } else if (name.length > 30) {
             client.disconnect(`Your name is too long. (Max 30 chars)`);
-        } else if (AntiName.countLetters(name) === 0) {
+        } else if (Utils.countLetters(name) === 0) {
             client.disconnect(`Your name does not contain any letters or numbers`);
         } else if (this._antiName.regex.test(name)) {
             const charactersUsed = {};
@@ -59,7 +60,7 @@ class PacketHandler implements GenericPacketHandler {
             }
 
             client.disconnect(`Your name cannot contain these characters: ${characters}`);
-        } else if (AntiName.countCapitals(name) / AntiName.countLetters(name) > AntiName.maxCapitalRatio) {
+        } else if (Utils.countCapitals(name) / Utils.countLetters(name) > AntiName.maxCapitalRatio) {
             client.disconnect(`Your name contains too many capital letters.`);
         } else if (/admin|moderator/ig.test(name)) {
             client.disconnect(`Your name cannot contain misleading keywords such as "admin" or moderator"`);
@@ -67,8 +68,8 @@ class PacketHandler implements GenericPacketHandler {
             client.disconnect(`Your name cannot contain profanity.`);
         }
 
-        const trimmedName = AntiName.removeRepeatedCharacters(name);
-        const strippedName = AntiName.stripTags(trimmedName);
+        const trimmedName = Utils.removeRepeatedCharacters(name);
+        const strippedName = Utils.stripTags(trimmedName);
         if (strippedName !== name) {
             const newPacket = new PacketWriter()
                 .setType(packet.packetType)
