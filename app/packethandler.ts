@@ -5,7 +5,6 @@ import Client from "terrariaserver-lite/client";
 import GenericPacketHandler from "terrariaserver-lite/handlers/genericpackethandler";
 import Packet from "terrariaserver-lite/packet";
 import AntiName from "./";
-import Utils from "./utils";
 
 class PacketHandler implements GenericPacketHandler {
     private _antiName: AntiName;
@@ -28,7 +27,7 @@ class PacketHandler implements GenericPacketHandler {
     private handlePlayerInfo(client: Client, packet: Packet): boolean {
         const reader = new PacketReader(packet.data);
         reader.readByte(); // Player ID
-        const skinVarient = reader.readByte();
+        const skinVariant = reader.readByte();
         const hair = reader.readByte();
         const name = reader.readString();
         const hairDye = reader.readByte();
@@ -43,56 +42,41 @@ class PacketHandler implements GenericPacketHandler {
         const pantsColor = reader.readColor();
         const shoeColor = reader.readColor();
         const difficulty = reader.readByte();
+        const torchFlags = reader.readByte();
 
-        if (name.length < 2) {
-            client.disconnect(`Your name is too short. (Min 2 chars)`);
-        } else if (name.length > 30) {
-            client.disconnect(`Your name is too long. (Max 30 chars)`);
-        } else if (Utils.countLetters(name) === 0) {
-            client.disconnect(`Your name does not contain any letters or numbers`);
-        } else if (this._antiName.regex.test(name)) {
-            const charactersUsed = {};
-            let characters = "";
-            for (const c of name) {
-                if (!charactersUsed[c] && this._antiName.regex.test(c)) {
-                    characters += c;
-                }
-            }
+        const nameResult = this._antiName.processClientName(name);
+        switch (nameResult.type) {
+            case "ACCEPTED_RENAME":
+                break;
+            case "REWRITTEN_RENAME":
+                const newPacket = new PacketWriter()
+                    .setType(packet.packetType)
+                    .packByte(0)
+                    .packByte(skinVariant)
+                    .packByte(hair)
+                    .packString(nameResult.newName)
+                    .packByte(hairDye)
+                    .packByte(hideVisuals)
+                    .packByte(hideVisuals2)
+                    .packByte(hideMisc)
+                    .packColor(hairColor)
+                    .packColor(skinColor)
+                    .packColor(eyeColor)
+                    .packColor(shirtColor)
+                    .packColor(underShirtColor)
+                    .packColor(pantsColor)
+                    .packColor(shoeColor)
+                    .packByte(difficulty)
+                    .packByte(torchFlags)
+                    .data;
 
-            client.disconnect(`Your name cannot contain these characters: ${characters}`);
-        } else if (Utils.countCapitals(name) / Utils.countLetters(name) > AntiName.maxCapitalRatio) {
-            client.disconnect(`Your name contains too many capital letters.`);
-        } else if (/admin|moderator/ig.test(name)) {
-            client.disconnect(`Your name cannot contain misleading keywords such as "admin" or moderator"`);
-        } else if (/fuck|shit|cunt|nigger|nigga|cock|penis|porn|hentai|vagina|\banal\b/ig.test(name)) {
-            client.disconnect(`Your name cannot contain profanity.`);
+                packet.data = newPacket;
+                break;
+            case "REJECTED_RENAME":
+                client.disconnect(nameResult.reason || "Your name is not allowed.");
+                break;
         }
 
-        const trimmedName = Utils.removeRepeatedCharacters(name);
-        const strippedName = Utils.stripTags(trimmedName);
-        if (strippedName !== name) {
-            const newPacket = new PacketWriter()
-                .setType(packet.packetType)
-                .packByte(0)
-                .packByte(skinVarient)
-                .packByte(hair)
-                .packString(strippedName)
-                .packByte(hairDye)
-                .packByte(hideVisuals)
-                .packByte(hideVisuals2)
-                .packByte(hideMisc)
-                .packColor(hairColor)
-                .packColor(skinColor)
-                .packColor(eyeColor)
-                .packColor(shirtColor)
-                .packColor(underShirtColor)
-                .packColor(pantsColor)
-                .packColor(shoeColor)
-                .packByte(difficulty)
-                .data;
-
-            packet.data = newPacket;
-        }
         return false;
     }
 }
