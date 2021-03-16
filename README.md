@@ -2,6 +2,7 @@
 TSL-AntiName is a TSL extension for validating character names. If a character does not pass the validation check, the player is booted.
 
 ## How to install
+### Manually
 Grab the latest release zip. The zip itself contains a folder called `antiname`. Simply extract the zip in the following path of a TSL installation:
 `build/node_modules/terrariaserver-lite/extensions/`
 This should result in the following path:
@@ -11,6 +12,9 @@ When you launch the server, it should say this:
 ```
 [Extension] AntiName v1.0 loaded.
 ```
+
+## Via plugin manager
+In the TSL root directory use `npm run pluginmanager install AntiName popstarfreas/TSL-AntiName master`
 
 ## How to build (for development)
 You will need:
