@@ -7,7 +7,7 @@ import Utils from "./utils";
 class AntiName extends Extension {
     public name = "AntiName";
     public version = "v1.0";
-    public regex = /[^\da-z!@#\$%\^\&\*\(\)\-\+~ ;{}|\[\]:\.,_`]/i;
+    public regex = /[^\da-z!@#\$%\^\&\*\(\)\-\+~ ;{}|:\.,_`]/i;
     public static maxCapitalRatio = 0.6;
 
     constructor(server: TerrariaServer) {
@@ -56,7 +56,7 @@ class AntiName extends Extension {
         } else if (/admin|moderator/ig.test(name)) {
             return {
                 type: "REJECTED_RENAME",
-                reason: `Your name cannot contain misleading keywords such as "admin" or moderator"`
+                reason: `Your name cannot contain misleading keywords such as "admin" or "moderator"`
             }
         } else if (/fuck|shit|cunt|nigger|nigga|penis|porn|hentai|vagina|\banal\b/ig.test(name)) {
             return {
