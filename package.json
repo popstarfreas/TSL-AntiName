@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "description": "",
   "scripts": {
-    "build": "tsc -p ./"
+    "build": "tsc -p ./",
+    "build:plugin": "node build.plugin.js"
   },
   "author": "",
   "license": "ISC",
