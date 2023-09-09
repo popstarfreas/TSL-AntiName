@@ -1,5 +1,5 @@
 import TerrariaServer from "terrariaserver-lite/terrariaserver";
-import Extension, {RenameResult} from "terrariaserver-lite/extensions/extension";
+import Extension, { RenameResult } from "terrariaserver-lite/extensions/extension";
 import PacketHandler from "./packethandler";
 import Client from "terrariaserver-lite/client";
 import Utils from "./utils";
@@ -15,7 +15,7 @@ class AntiName extends Extension {
         this.packetHandler = new PacketHandler(this);
     }
 
-    public preClientRename(client: Client, newName: string): RenameResult {
+    public preClientRename(_client: Client, newName: string): RenameResult {
         return this.processClientName(newName);
     }
 
