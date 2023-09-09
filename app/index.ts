@@ -25,10 +25,10 @@ class AntiName extends Extension {
                 type: "REJECTED_RENAME",
                 reason: "Your name is too short. (Min 2 chars)"
             }
-        } else if (name.length > 30) {
+        } else if (name.length > 20) {
             return {
                 type: "REJECTED_RENAME",
-                reason: "Your name is too long. (Max 30 chars)"
+                reason: "Your name is too long. (Max 20 chars)"
             }
         } else if (Utils.countLetters(name) === 0) {
             return {
