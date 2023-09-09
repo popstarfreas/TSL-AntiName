@@ -67,23 +67,30 @@ class AntiName extends Extension {
 
         const trimmedName = Utils.removeRepeatedCharacters(name);
         const strippedName = Utils.stripTags(trimmedName);
+        const whitespaceTrimmed = strippedName.trim();
         if (strippedName !== trimmedName && trimmedName !== name) {
             return {
                 type: "REWRITTEN_RENAME",
-                newName: strippedName,
+                newName: whitespaceTrimmed,
                 reason: "Your name contains repeated characters. Your name contains chat tags.",
             }
         } else if (strippedName !== trimmedName) {
             return {
                 type: "REWRITTEN_RENAME",
-                newName: strippedName,
+                newName: whitespaceTrimmed,
                 reason: "Your name contains chat tags.",
             }
         } else if (trimmedName !== name) {
             return {
                 type: "REWRITTEN_RENAME",
-                newName: strippedName,
+                newName: whitespaceTrimmed,
                 reason: "Your name contains repeated characters.",
+            }
+        } else if (whitespaceTrimmed !== name) {
+            return {
+                type: "REWRITTEN_RENAME",
+                newName: whitespaceTrimmed,
+                reason: "Your name contains leading/trailing spaces.",
             }
         }
 
