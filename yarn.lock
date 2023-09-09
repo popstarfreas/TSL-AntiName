@@ -1023,7 +1023,7 @@ tar@^6.0.2, tar@^6.1.11, tar@^6.1.2:
     mkdirp "^1.0.3"
     yallist "^4.0.0"
 
-terrariaserver-lite@./TerrariaServer-Lite:
+terrariaserver-lite@./TerrariaServer-Lite/pluginreference:
   version "2.0.0-beta.4"
   dependencies:
     "@glennsl/bs-json" "^5.0.2"

@@ -1,10 +1,9 @@
-import PacketReader from "@popstarfreas/packetfactory/packetreader";
-import PacketWriter from "@popstarfreas/packetfactory/packetwriter";
 import PacketTypes from "terrariaserver-lite/packettypes";
 import Client from "terrariaserver-lite/client";
 import GenericPacketHandler from "terrariaserver-lite/handlers/genericpackethandler";
 import Packet from "terrariaserver-lite/packet";
 import AntiName from "./";
+import * as PlayerInfo from "rescript-terrariapacket/src/packet/Packet_PlayerInfo.gen";
 
 class PacketHandler implements GenericPacketHandler {
     private _antiName: AntiName;
@@ -25,52 +24,18 @@ class PacketHandler implements GenericPacketHandler {
     }
 
     private handlePlayerInfo(client: Client, packet: Packet): boolean {
-        const reader = new PacketReader(packet.data);
-        reader.readByte(); // Player ID
-        const skinVariant = reader.readByte();
-        const hair = reader.readByte();
-        const name = reader.readString();
-        const hairDye = reader.readByte();
-        const hideVisuals = reader.readByte();
-        const hideVisuals2 = reader.readByte();
-        const hideMisc = reader.readByte();
-        const hairColor = reader.readColor();
-        const skinColor = reader.readColor();
-        const eyeColor = reader.readColor();
-        const shirtColor = reader.readColor();
-        const underShirtColor = reader.readColor();
-        const pantsColor = reader.readColor();
-        const shoeColor = reader.readColor();
-        const difficulty = reader.readByte();
-        const torchFlags = reader.readByte();
+        const playerInfo = PlayerInfo.parse(packet.data);
+        if (typeof playerInfo === "undefined") {
+            return false;
+        }
 
+        const name = playerInfo.name;
         const nameResult = this._antiName.processClientName(name);
         switch (nameResult.type) {
             case "ACCEPTED_RENAME":
                 break;
             case "REWRITTEN_RENAME":
-                const newPacket = new PacketWriter()
-                    .setType(packet.packetType)
-                    .packByte(0)
-                    .packByte(skinVariant)
-                    .packByte(hair)
-                    .packString(nameResult.newName)
-                    .packByte(hairDye)
-                    .packByte(hideVisuals)
-                    .packByte(hideVisuals2)
-                    .packByte(hideMisc)
-                    .packColor(hairColor)
-                    .packColor(skinColor)
-                    .packColor(eyeColor)
-                    .packColor(shirtColor)
-                    .packColor(underShirtColor)
-                    .packColor(pantsColor)
-                    .packColor(shoeColor)
-                    .packByte(difficulty)
-                    .packByte(torchFlags)
-                    .data;
-
-                packet.data = newPacket;
+                packet.data = PlayerInfo.toBuffer({ ...playerInfo, playerId: client.id ?? 0, name: nameResult.newName });
                 break;
             case "REJECTED_RENAME":
                 client.disconnect(nameResult.reason || "Your name is not allowed.");
