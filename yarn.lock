@@ -57,13 +57,6 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@popstarfreas/packetfactory@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@popstarfreas/packetfactory/-/packetfactory-1.0.0.tgz#ad67afab30f9a39109d09f8c3260f39057be9e6a"
-  integrity sha512-RlQ67QxCwkk7WpHq+w9/tnaFUIH/EJCQyLbN+hldQRGODWFiSM3XMIWptk/RbciTFMAjXcGU9CMztUuiCKWosw==
-  dependencies:
-    utf8 "^2.1.2"
-
 "@popstarfreas/packetfactory@^5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@popstarfreas/packetfactory/-/packetfactory-5.0.0.tgz#1bb5898498ba781f09e405275e1ef8b499c80aad"
@@ -85,7 +78,7 @@
   version "16.0.0"
   resolved "https://codeload.github.com/popstarfreas/rescript-nodejs/tar.gz/f8b788681e86a7d82c975654d19c1dec7e02a221"
   dependencies:
-    rescript "10"
+    rescript "^10.1.4"
 
 "@tootallnate/once@1":
   version "1.1.2"
