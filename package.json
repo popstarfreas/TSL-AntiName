@@ -11,7 +11,7 @@
   "dependencies": {
     "@popstarfreas/packetfactory": "^5.0.0",
     "@types/node": "^20.5.9",
-    "rescript-terrariapacket": "github:popstarfreas/rescript-terrariapacket#3c76ed0",
+    "rescript-terrariapacket": "github:popstarfreas/rescript-terrariapacket#c57487329296cf9ec147828872ca6abd44c9a70e",
     "terrariaserver-lite": "./TerrariaServer-Lite/pluginreference",
     "typescript": "^5.2.2"
   }
