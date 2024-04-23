@@ -4,13 +4,15 @@
   "description": "",
   "scripts": {
     "build": "tsc -p ./",
-    "build:plugin": "node build.plugin.js"
+    "build:plugin": "node build.plugin.js",
+    "build:packed": "esbuild build/index.js --bundle --platform=node --outfile=output/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@popstarfreas/packetfactory": "^5.0.0",
     "@types/node": "^20.5.9",
+    "esbuild": "^0.20.2",
     "rescript-terrariapacket": "github:popstarfreas/rescript-terrariapacket#c57487329296cf9ec147828872ca6abd44c9a70e",
     "terrariaserver-lite": "./TerrariaServer-Lite/pluginreference",
     "typescript": "^5.2.2"
