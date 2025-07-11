@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc -p ./",
     "build:plugin": "node build.plugin.js",
-    "build:packed": "esbuild build/index.js --bundle --platform=node --outfile=output/index.js"
+    "build:packed": "esbuild build/index.js --bundle --platform=node --external:terrariaserver-lite --outfile=output/index.js"
   },
   "author": "",
   "license": "ISC",
