@@ -1,8 +1,8 @@
 import TerrariaServer from "terrariaserver-lite/terrariaserver";
 import Extension, { RenameResult } from "terrariaserver-lite/extensions/extension";
-import PacketHandler from "./packethandler";
+import PacketHandler from "./packethandler.js";
 import Client from "terrariaserver-lite/client";
-import Utils from "./utils";
+import Utils from "./utils.js";
 
 class AntiName extends Extension {
     public name = "AntiName";

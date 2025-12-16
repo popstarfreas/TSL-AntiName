@@ -1,5 +1,5 @@
-var fs = require("fs");
-var child_process = require("child_process");
+import fs from "node:fs";
+import child_process from "node:child_process";
 
 child_process.execSync("pnpm i --production=true ../../pluginreference", { stdio: "inherit" })
 child_process.execSync("pnpm run build", { stdio: "inherit" })
