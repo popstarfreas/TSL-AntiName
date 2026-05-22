@@ -14,7 +14,7 @@
     "@popstarfreas/packetfactory": "^5.0.0",
     "@types/node": "^20.5.9",
     "esbuild": "^0.20.2",
-    "terraria-packet": "github:popstarfreas/rescript-terrariapacket#c7d2f4d97565405611caccc7d0b81974654d5a61",
+    "terraria-packet": "github:popstarfreas/rescript-terrariapacket#396bc430fbff3c8d700ee6dd016bc8e36419730b",
     "terrariaserver-lite": "./TerrariaServer-Lite",
     "typescript": "^5.2.2"
   }
