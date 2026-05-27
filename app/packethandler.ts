@@ -27,10 +27,11 @@ class PacketHandler implements GenericPacketHandler {
   private handlePlayerInfo(client: Client, packet: Packet): boolean {
     const playerInfoResult = PlayerInfoPacket.parse(packet.data);
     if (playerInfoResult.TAG === "Error") {
+      const packetHex = packet.data.toString("hex");
       if (playerInfoResult._0.error instanceof Error) {
-        client.server.logger.error(`Failed to parse PlayerInfo packet: ${playerInfoResult._0.context}; ${playerInfoResult._0.error.message}`);
+        client.server.logger.error(`Failed to parse PlayerInfo packet: ${playerInfoResult._0.context}; ${playerInfoResult._0.error.message}; packetHex=${packetHex}`);
       } else {
-        client.server.logger.error(`Failed to parse PlayerInfo packet: ${playerInfoResult._0.context}`);
+        client.server.logger.error(`Failed to parse PlayerInfo packet: ${playerInfoResult._0.context}; packetHex=${packetHex}`);
       }
       return false;
     }
